@@ -6,7 +6,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class GeradorArquivo {
-	
+
 	public final void gerarArquivo(String nome, Map<String, Object> propriedades, String tipo)throws IOException{
 		byte[] bytes = null;
 		if (tipo.equals("PROPRIEDADES_CRIPTOGRAFADO")) {			
@@ -20,8 +20,18 @@ public class GeradorArquivo {
 		fileout.write(bytes);
 		fileout.close();
 	}
+
+	private byte[] processaXmlCompactado(Map<String, Object> propriedades) throws IOException{
+		String conteudo = geraConteudoXml(propriedades);
+		return processaCompactacao(conteudo.getBytes());
+	}
 	
-	private byte[] processaXmlCompactado(Map<String, Object> propriedades) throws IOException {
+	private byte[] processaPropriedadesCriptografado(Map<String, Object> propriedades) {
+		String conteudo = geraConteudoPropriedades(propriedades);
+		return processaCriptografado(conteudo.getBytes());
+	}
+
+	private String geraConteudoXml(Map<String, Object> propriedades) {
 		//gera xml
 		StringBuilder propFileBuilder = new StringBuilder();
 		propFileBuilder.append("<properties>");
@@ -29,8 +39,10 @@ public class GeradorArquivo {
 			propFileBuilder.append("<"+prop+">"+propriedades.get(prop)+"</"+prop+">");
 		}
 		propFileBuilder.append("</propriedades>");
-		byte[] bytes = propFileBuilder.toString().getBytes();
-		
+		return propFileBuilder.toString();
+	}
+
+	private byte[] processaCompactacao(byte[] bytes)  throws IOException{
 		//compacta
 		ByteArrayOutputStream byteout = new ByteArrayOutputStream();
 		ZipOutputStream out = new ZipOutputStream(byteout);
@@ -39,21 +51,23 @@ public class GeradorArquivo {
 		out.closeEntry();
 		out.close();
 		return byteout.toByteArray();	
-		
 	}
 
-	private byte[] processaPropriedadesCriptografado(Map<String, Object> propriedades) {
-		//gera properties
-		StringBuilder propFileBuilder = new StringBuilder();
-		for (String prop : propriedades.keySet()) {
-			propFileBuilder.append(prop+"="+propriedades.get(prop)+"\n");
-		}
-		byte[] bytes = propFileBuilder.toString().getBytes();
-		//criptografia
+	private byte[] processaCriptografado(byte[] bytes) {
 		byte[] newBytes = new byte[bytes.length];
 		for (int i = 0; i < bytes.length; i++) {
 			newBytes[i] = (byte)((bytes[i]+10) % Byte.MAX_VALUE);
 		}
 		return newBytes;
 	}
+	private String geraConteudoPropriedades(Map<String, Object> propriedades) {
+		//gera properties
+		StringBuilder propFileBuilder = new StringBuilder();
+		for (String prop : propriedades.keySet()) {
+			propFileBuilder.append(prop+"="+propriedades.get(prop)+"\n");
+		}
+		return propFileBuilder.toString();
+	}
+
+	
 }
