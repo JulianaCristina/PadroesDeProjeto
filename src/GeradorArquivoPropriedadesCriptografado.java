@@ -1,13 +1,9 @@
 import java.util.Map;
 
-public class ProcessaPropriedadesCriptografado {
-
-	public byte[] processaPropriedadeCriptografado(Map<String, Object> propriedades) {
-		String conteudo = geraConteudoPropriedades(propriedades);
-		return processaCriptografado(conteudo.getBytes());
-	}
+public class GeradorArquivoPropriedadesCriptografado extends GeradorArquivo {
 	
-	private String geraConteudoPropriedades(Map<String, Object> propriedades) {
+	@Override
+	protected String gerarConteudo(Map<String, Object> propriedades) {
 		//gera properties
 		StringBuilder propFileBuilder = new StringBuilder();
 		for (String prop : propriedades.keySet()) {
@@ -16,7 +12,8 @@ public class ProcessaPropriedadesCriptografado {
 		return propFileBuilder.toString();
 	}
 	
-	private byte[] processaCriptografado(byte[] bytes) {
+	@Override
+	protected byte[] processaConteudo(byte[] bytes) {
 		byte[] newBytes = new byte[bytes.length];
 		for (int i = 0; i < bytes.length; i++) {
 			newBytes[i] = (byte)((bytes[i]+10) % Byte.MAX_VALUE);
