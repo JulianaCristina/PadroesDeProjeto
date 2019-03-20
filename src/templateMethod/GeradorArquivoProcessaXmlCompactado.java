@@ -1,10 +1,11 @@
+package templateMethod;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-public class ProcessaXmlCompactado extends GeradorArquivo{
+public class GeradorArquivoProcessaXmlCompactado extends GeradorArquivo{
 		
 	@Override
 	protected String gerarConteudo(Map<String, Object> propriedades) {

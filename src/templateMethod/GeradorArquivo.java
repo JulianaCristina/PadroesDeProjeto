@@ -1,9 +1,7 @@
-import java.io.ByteArrayOutputStream;
+package templateMethod;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 public  abstract class GeradorArquivo {
 

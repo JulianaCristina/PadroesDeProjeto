@@ -1,3 +1,4 @@
+package templateMethod;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,8 +13,11 @@ public class Principal {
 		GeradorArquivo gerador = new GeradorArquivoPropriedadesCriptografado();
 		gerador.gerarArquivo("c:\\Gerador\\Cripto.text", mapa);
 		
-		GeradorArquivo gerador1 = new ProcessaXmlCompactado();
+		GeradorArquivo gerador1 = new GeradorArquivoProcessaXmlCompactado();
 		gerador1.gerarArquivo("c:\\Gerador\\XML.zip", mapa );
+		
+		GeradorArquivo gerador2 = new GeradorPropriedadesDefault();
+		gerador2.gerarArquivo("c:\\Gerador\\default.txt", mapa );
 				
 	}
 

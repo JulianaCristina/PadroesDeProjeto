@@ -1,3 +1,4 @@
+package templateMethod;
 import java.util.Map;
 
 public class GeradorArquivoPropriedadesCriptografado extends GeradorArquivo {
