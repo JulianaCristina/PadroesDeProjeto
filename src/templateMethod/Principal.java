@@ -10,13 +10,13 @@ public class Principal {
 		mapa.put("nome", "Carlos");
 		mapa.put("idade",32);
 		
-		GeradorArquivo gerador = new GeradorArquivoPropriedadesCriptografado();
+		GeradorArquivo gerador = new GeradorArquivoPropriedades(new ProcessaCriptografado());
 		gerador.gerarArquivo("c:\\Gerador\\Cripto.text", mapa);
 		
-		GeradorArquivo gerador1 = new GeradorArquivoProcessaXmlCompactado();
+		GeradorArquivo gerador1 = new GeradorArquivoXml(new ProcessaCompactado());
 		gerador1.gerarArquivo("c:\\Gerador\\XML.zip", mapa );
 		
-		GeradorArquivo gerador2 = new GeradorPropriedadesDefault();
+		GeradorArquivo gerador2 = new GeradorArquivoPropriedades(new ProcessaDefault());
 		gerador2.gerarArquivo("c:\\Gerador\\default.txt", mapa );
 				
 	}

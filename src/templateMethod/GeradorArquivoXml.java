@@ -5,8 +5,11 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-public class GeradorArquivoProcessaXmlCompactado extends GeradorArquivo{
+public class GeradorArquivoXml extends GeradorArquivo{
 		
+	public GeradorArquivoXml(Processador processador) {
+		super(processador);
+	}
 	@Override
 	protected String gerarConteudo(Map<String, Object> propriedades) {
 		//gera xml
@@ -18,17 +21,7 @@ public class GeradorArquivoProcessaXmlCompactado extends GeradorArquivo{
 		propFileBuilder.append("</propriedades>");
 		return propFileBuilder.toString();
 	}	
-	@Override
-	protected byte[] processaConteudo(byte[] bytes)  throws IOException{
-		//compacta
-		ByteArrayOutputStream byteout = new ByteArrayOutputStream();
-		ZipOutputStream out = new ZipOutputStream(byteout);
-		out.putNextEntry(new ZipEntry("internal"));
-		out.write(bytes);
-		out.closeEntry();
-		out.close();
-		return byteout.toByteArray();	
-	}
+	
 
 
 }
